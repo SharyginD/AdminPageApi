@@ -2,6 +2,7 @@ package my.project.service.impl;
 
 import my.project.domain.dto.User;
 import my.project.domain.entity.UserEntity;
+import my.project.exception.customException.ResourceNotFoundException;
 import my.project.repository.UserRepository;
 import my.project.service.UserService;
 import my.project.util.mapStruct.UserMapper;
@@ -38,7 +39,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User delete(int id) {
-        UserEntity userEntity = userRepository.findById(id).orElseThrow(RuntimeException::new);
+        UserEntity userEntity = userRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("User with id = " + id + " not found"));
         userRepository.delete(userEntity);
         return UserMapper.INSTANCE.toDTO(userEntity);
     }
