@@ -20,7 +20,7 @@ public class ApiError {
 
     private String message;
 
-    private List<ApiSubError> subErrorsList = new ArrayList();
+    private List<ApiSubError> subErrorsList = new ArrayList<>();
 
     public ApiError(HttpStatus status, String message) {
         this.status = status;
