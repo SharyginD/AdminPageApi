@@ -1,5 +1,6 @@
 package my.project.exception;
 
+import my.project.exception.customException.NonUniqueException;
 import my.project.exception.customException.ResourceNotFoundException;
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.http.HttpHeaders;
@@ -59,6 +60,14 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         apiSubErrorList.add(apiSubError);
         ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, message);
         apiError.setSubErrorsList(apiSubErrorList);
+
+        return new ResponseEntity<>(apiError, apiError.getStatus());
+    }
+
+    //400 Non unique admin...
+    @ExceptionHandler(NonUniqueException.class)
+    protected ResponseEntity<Object> nonUniqueException(NonUniqueException ex, WebRequest request) {
+        ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, ex.getMessage());
 
         return new ResponseEntity<>(apiError, apiError.getStatus());
     }
